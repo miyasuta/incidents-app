@@ -71,7 +71,8 @@ modules:
             - Name: incident-management_cdm
               ServiceInstanceName: incidents-html5-app-runtime-service
               ServiceKeyName: incidents-html5-app-runtime-service-key
-              URL: https://html5-apps-repo-rt.${default-domain}/applications/cdm/ns.incidents.wz
+              # URL: https://html5-apps-repo-rt.${default-domain}/applications/cdm/ns.incidents.wz
+              URL: https://html5-apps-repo-rt.cfapps.us10.hana.ondemand.com/applications/cdm/incidents
           existing_destinations_policy: ignore
     build-parameters:
       no-source: true
@@ -90,7 +91,7 @@ modules:
     requires:
       - name: incidents-db3
       - name: incidents-auth
-      - name: incidents-registry
+      - name: incidents-registry3
       - name: incident-management-repo-host
      # - name: incidents_html_repo_runtime
       - name: incident-management-destination-service
@@ -106,7 +107,7 @@ resources:
     parameters:
       config:
         tenant-mode: shared
-        xsappname: incidents
+        xsappname: incidents3
       path: ./xs-security.json
       service: xsuaa
       service-plan: application
@@ -129,11 +130,12 @@ resources:
                 ProxyType: Internet
                 CEP.HTML5contentprovider: true
                 Type: HTTP
-                URL: https://sveto-cdm-md14azlb.launchpad.${default-domain}
+                # URL: https://sveto-cdm-md14azlb.launchpad.${default-domain}
+                URL: https://91fec855trial.launchpad.cfapps.us10.hana.ondemand.com
       service: destination
       service-name: incident-management-destination-service
       service-plan: lite
-  - name: incidents-registry
+  - name: incidents-registry3
     type: org.cloudfoundry.managed-service
     requires:
       - name: mtx-api
@@ -141,9 +143,9 @@ resources:
       service: saas-registry
       service-plan: application
       config:
-        xsappname: incidents
-        appName: incidents
-        displayName: incidents
+        xsappname: incidents3
+        appName: incidents3
+        displayName: incidents3
         description: A simple CAP project.
         category: 'GA'
         appUrls:
@@ -169,4 +171,4 @@ build-parameters:
         - npx cds build --production
         - mkdir -p resources
         - cp configurations/cdm.json resources/cdm.json
-        - npx cds build --production 
+        # - npx cds build --production 
